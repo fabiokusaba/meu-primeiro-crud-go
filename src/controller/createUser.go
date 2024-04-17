@@ -2,6 +2,7 @@ package controller
 
 import (
 	"fmt"
+	"log"
 
 	"github.com/fabiokusaba/meu-primeiro-crud-go/src/configuration/rest_err"
 	"github.com/fabiokusaba/meu-primeiro-crud-go/src/controller/model/request"
@@ -9,12 +10,14 @@ import (
 )
 
 func CreateUser(c *gin.Context) {
+	log.Println("Init CreateUser controller")
 	var userRequest request.UserRequest
 
 	if err := c.ShouldBindJSON(&userRequest); err != nil {
-		restErr := rest_err.NewBadRequestError(fmt.Sprintf("There are some incorrect fields, error=%s", err.Error()))
+		log.Printf("Error trying to marshal object, error=%s\n", err.Error())
+		errRest := rest_err.NewBadRequestError("Some fields are incorrect")
 
-		c.JSON(restErr.Code, restErr)
+		c.JSON(errRest.Code, errRest)
 		return
 	}
 
