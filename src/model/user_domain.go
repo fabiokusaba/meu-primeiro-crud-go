@@ -7,6 +7,12 @@ import (
 	"github.com/fabiokusaba/meu-primeiro-crud-go/src/configuration/rest_err"
 )
 
+func NewUserDomain(email, password, name string, age int8) UserDomainInterface {
+	return &UserDomain{
+		email, password, name, age,
+	}
+}
+
 type UserDomain struct {
 	Email    string
 	Password string
