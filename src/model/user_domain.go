@@ -22,8 +22,8 @@ func(ud *UserDomain) EncryptPassword() {
 }
 
 type UserDomainInterface interface {
-	CreateUser(UserDomain) *rest_err.RestErr
-	UpdateUser(string, UserDomain) *rest_err.RestErr
+	CreateUser() *rest_err.RestErr
+	UpdateUser(string) *rest_err.RestErr
 	FindUser(string) (*UserDomain, *rest_err.RestErr)
 	DeleteUser(string) *rest_err.RestErr
 }
