@@ -1,12 +1,24 @@
 package model
 
-import "github.com/fabiokusaba/meu-primeiro-crud-go/src/configuration/rest_err"
+import (
+	"crypto/md5"
+	"encoding/hex"
+
+	"github.com/fabiokusaba/meu-primeiro-crud-go/src/configuration/rest_err"
+)
 
 type UserDomain struct {
 	Email    string
 	Password string
 	Name     string
 	Age      int8
+}
+
+func(ud *UserDomain) EncryptPassword() {
+	hash := md5.New()
+	defer hash.Reset()
+	hash.Write([]byte(ud.Password))
+	ud.Password = hex.EncodeToString(hash.Sum(nil))
 }
 
 type UserDomainInterface interface {
