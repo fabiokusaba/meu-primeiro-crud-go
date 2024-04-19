@@ -10,14 +10,14 @@ import (
 )
 
 var (
-	MONGODB_URL = "MONGODB_URL"
+	MONGODB_URL           = "MONGODB_URL"
 	MONGODB_USER_DATABASE = "MONGODB_USER_DATABASE"
 )
 
-func newMongoDBConnection(ctx context.Context) (*mongo.Database, error) {
+func NewMongoDBConnection(ctx context.Context) (*mongo.Database, error) {
 	mongodb_uri := os.Getenv(MONGODB_URL)
 	mongodb_database := os.Getenv(MONGODB_USER_DATABASE)
-	
+
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongodb_uri))
 	if err != nil {
 		return nil, err
@@ -28,6 +28,6 @@ func newMongoDBConnection(ctx context.Context) (*mongo.Database, error) {
 	}
 
 	logger.Info("MongoDB was connected")
-	
+
 	return client.Database(mongodb_database), nil
 }
