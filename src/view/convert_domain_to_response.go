@@ -5,11 +5,11 @@ import (
 	"github.com/fabiokusaba/meu-primeiro-crud-go/src/model"
 )
 
-func ConvertDomainToResponse(userDomain model.UserDomainInterface)  response.UserResponse {
+func ConvertDomainToResponse(userDomain model.UserDomainInterface) response.UserResponse {
 	return response.UserResponse{
-		ID: "",
+		ID:    userDomain.GetID(),
 		Email: userDomain.GetEmail(),
-		Name: userDomain.GetName(),
-		Age: userDomain.GetAge(),
+		Name:  userDomain.GetName(),
+		Age:   userDomain.GetAge(),
 	}
 }

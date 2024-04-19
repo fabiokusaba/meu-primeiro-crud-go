@@ -3,6 +3,7 @@ package repository
 import (
 	"context"
 	"github.com/fabiokusaba/meu-primeiro-crud-go/src/model/repository/entity/converter"
+	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.uber.org/zap"
 	"os"
 
@@ -11,14 +12,10 @@ import (
 	"github.com/fabiokusaba/meu-primeiro-crud-go/src/model"
 )
 
-const (
-	MONGODB_USER_COLLECTION = "MONGODB_USER_COLLECTION"
-)
-
 func (ur *userRepository) CreateUser(userDomain model.UserDomainInterface) (model.UserDomainInterface, *rest_err.RestErr) {
 	logger.Info("Init createUser repository", zap.String("journey", "createUser"))
 
-	collection_name := os.Getenv(MONGODB_USER_COLLECTION)
+	collection_name := os.Getenv("MONGODB_USER_DATABASE")
 
 	collection := ur.databaseConnection.Collection(collection_name)
 
@@ -30,9 +27,9 @@ func (ur *userRepository) CreateUser(userDomain model.UserDomainInterface) (mode
 		return nil, rest_err.NewInternalServerError(err.Error())
 	}
 
-	userDomain.SetID(result.InsertedID.(string))
+	value.ID = result.InsertedID.(primitive.ObjectID)
 
 	logger.Info("CreateUser repository executed successfully", zap.String("userId", userDomain.GetID()), zap.String("journey", "createUser"))
 
-	return userDomain, nil
+	return converter.ConvertEntityToDomain(*value), nil
 }
